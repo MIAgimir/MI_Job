@@ -5,7 +5,7 @@ local workPed = {
 
 local doingTaskOne = false
 
---[[ Task One Job Start ]]--
+--[[ Boss Ped Creation ]]--
 local function createBossPed(coords)
     local coords = Config.WorkPed.coords
     local ped = CreatePed(0, model, 
@@ -22,7 +22,7 @@ local function createBossPed(coords)
             icon = 'fa-solid fa-circle-info',
             event = 'mi_ox_job:client:doTaskOne',
             canInteract = function(_, distance)
-                return distance < 2.0 and not doingTaskOne or doingTaskTwo
+                return distance < 2.0 and not doingTaskOne --or doingTaskTwo
             end
         }
     }

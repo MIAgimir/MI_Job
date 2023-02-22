@@ -30,7 +30,7 @@ shared_scripts {
 }
 
 client_scripts {
-	'task_one.lua',
+	'main.lua',
     'utils.lua'
 }
 
