@@ -2,6 +2,7 @@
 I'm putting this together cause I want to and I'm too tired to describe it right now.  Ox_Core based job template for development use.
 
 ## Instructions
+* Watch paint dry
 
 ### Insert SQL:
 ``` INSERT INTO `ox_groups` (`name`, `label`, `grades`, `hasAccount`, `adminGrade`, `colour`) VALUES
@@ -9,10 +10,10 @@ I'm putting this together cause I want to and I'm too tired to describe it right
 
 ### Insert into Ox_Inventory Data/Items.lua file
 ``` ['job1_phone'] = { -- idea: Player uses item for job
-        label = 'Dingus',
-        weight = 6969,
+        label = 'Work Phone',
+        weight = 380,
         consume = 0,
-        description = "Oh man, what a dingus, just Look at em",
+        description = "Used for [insert_job]",
         client = {
             anim = { dict = 'paper_1_rcm_alt1-8', clip = 'player_one_dual-8', flag = 49 },
             prop = { model = 'prop_police_phone', -- need badge props repo
