@@ -1,62 +1,72 @@
-local workPed = {
-    spawned = false,
-    ped = nil,
-}
+exports('myMenuHandler', function(menu, item)
+    print(menu, item)
 
-local doingTaskOne = false
-
---[[ Boss Ped Creation ]]--
-local function createBossPed(coords)
-    local coords = Config.WorkPed.coords
-    local ped = CreatePed(0, model, 
-    coords.x, coords.y, coords.z - 1, coords.w, false, false)
-    workPed.ped = ped
-    TaskStartScenarioInPlace(ped, 'PROP_HUMAN_STAND_IMPATIENT', 0, true)
-    FreezeEntityPosition(ped, true)
-    SetEntityInvincible(ped, true)
-    SetBlockingOfNonTemporaryEvents(ped, true)
-    local options = {
-        {
-            name = 'mioxjob:doTaskOne',
-            label = 'Task 1',
-            icon = 'fa-solid fa-circle-info',
-            event = 'mi_ox_job:client:doTaskOne',
-            canInteract = function(_, distance)
-                return distance < 2.0 and not doingTaskOne --or doingTaskTwo
-            end
-        }
-    }
-    exports.ox_target:addLocalEntity(workPed.ped, options)
-
-end
-
---[[ TaskOne Net Event ]]--
-RegisterNetEvent('mi_ox_job:client:doTaskOne', function()
-    if doingTaskOne then return end
-    doingTaskOne = true
-end)
-
---[[ CompletingTaskOne Net Event ]]--
-RegisterNetEvent('mi_ox_job:client:doTaskOne', function()
-
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Completing Task One',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            car = true,
-            move = true,
-        },
-    }) then
-    exports.scully_emotemenu:CancelAnimation()
-    doingTaskOne = false
-    lib.notify({
-        description = 'Task One Completed',
-        type = 'success'
-    })
-
+    if menu == 'police_menu' and item == 1 then
+        print('Handcuffs')
     end
 end)
 
---[[ ReturningToWork Net Event ]]--
+lib.registerRadial({
+  id = 'police_menu',
+  items = {
+    {
+      label = 'Handcuff',
+      icon = 'handcuffs',
+      onSelect = 'myMenuHandler'
+    },
+    {
+      label = 'Frisk',
+      icon = 'hand'
+    },
+    {
+      label = 'Fingerprint',
+      icon = 'fingerprint'
+    },
+    {
+      label = 'Jail',
+      icon = 'bus'
+    },
+    {
+      label = 'Search',
+      icon = 'magnifying-glass',
+      onSelect = function()
+        print('Search')
+      end
+    }
+  }
+})
+
+lib.addRadialItem({
+  {
+    id = 'police',
+    label = 'Police',
+    icon = 'shield-halved',
+    menu = 'police_menu'
+  },
+  {
+    id = 'business_stuff',
+    label = 'Business',
+    icon = 'briefcase',
+    onSelect = function()
+      print("Business")
+    end
+  }
+})
+
+local coords = GetEntityCoords(cache.ped)
+local point = lib.points.new(coords, 5)
+
+function point:onEnter()
+  lib.addRadialItem({
+    id = 'garage_access',
+    icon = 'warehouse',
+    label = 'Garage',
+    onSelect = function()
+      print('Garage')
+    end
+  })
+end
+
+function point:onExit()
+  lib.removeRadialItem('garage_access')
+end
