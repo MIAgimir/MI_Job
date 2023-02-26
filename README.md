@@ -20,4 +20,4 @@ I'm putting this together cause I want to and I'm too tired to describe it right
             disable = { move = false, car = false, combat = false },
             usetime = 5000,
         }
-    }, ```
+    },
