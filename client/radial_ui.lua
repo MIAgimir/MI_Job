@@ -1,3 +1,7 @@
+-- Find method to ensure radial menu is 
+-- only usable with the assigned job in the script
+-- (if group ~= 'job1', return nil)
+-- (if group == 'job1', allow menu to open)
 exports('myMenuHandler', function(menu, item)
     print(menu, item)
 
@@ -64,7 +68,7 @@ lib.registerRadial({
   }
 })
 
--- Silent Alert Sytem (set color theme for notifications)
+-- Silent Alert Sytem
 lib.registerRadial({
   id = 'alert_menu',
   items = {
@@ -111,6 +115,7 @@ lib.registerRadial({
   }
 })
 
+-- check into work
 function radial_checkin()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
@@ -123,6 +128,7 @@ function radial_checkin()
   TriggerServerEvent('ox:setPlayerInService', InService)
 end
 
+-- check out of work
 function radial_checkout()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
@@ -135,6 +141,7 @@ function radial_checkout()
   TriggerServerEvent('ox:setPlayerInService', InService)
 end
 
+-- request work assignment
 function assignment_check()
   exports.scully_emotemenu:PlayByCommand('sms5')
   lib.notify({
@@ -146,6 +153,7 @@ function assignment_check()
   exports.scully_emotemenu:CancelAnimation()
 end
 
+-- request work vehicle
 function request_vehicle()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
