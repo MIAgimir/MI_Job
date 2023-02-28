@@ -151,6 +151,8 @@ function assignment_check()
   })
   Wait(5000)
   exports.scully_emotemenu:CancelAnimation()
+  local amount = 100
+  TriggerServerEvent('mioxjob:taskcompleted', amount) -- tested for server to client event
 end
 
 -- request work vehicle
