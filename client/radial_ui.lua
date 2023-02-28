@@ -115,6 +115,7 @@ lib.registerRadial({
   }
 })
 
+-- Functions
 -- check into work
 function radial_checkin()
   exports.scully_emotemenu:PlayByCommand('sms5')
@@ -141,6 +142,7 @@ function radial_checkout()
   TriggerServerEvent('ox:setPlayerInService', InService)
 end
 
+
 -- request work assignment
 function assignment_check()
   exports.scully_emotemenu:PlayByCommand('sms5')
@@ -151,8 +153,10 @@ function assignment_check()
   })
   Wait(5000)
   exports.scully_emotemenu:CancelAnimation()
-  local amount = 100
-  TriggerServerEvent('mioxjob:taskcompleted', amount) -- tested for server to client event
+  job_startnotification()
+  TriggerEvent('mioxjob:start_taskone')
+  TriggerServerEvent('mioxjob:taskcompleted') -- tested for server to client event
+  --job_paidnotification()
 end
 
 -- request work vehicle
@@ -165,4 +169,30 @@ function request_vehicle()
     type = 'inform'
   })
   exports.scully_emotemenu:CancelAnimation()
+end
+
+-- Job start notification (no text)
+function job_startnotification()
+  exports.npwd:getPhoneNumber()
+  exports["npwd"]:createNotification({
+      notisId = "npwd:tweetBroadcast",
+      appId = "MESSAGES",
+      content = "You have a work assignment. Check your map",
+      secondaryTitle = "MI_Job Network",
+      keepOpen = false,
+      duration = 7500,
+  })
+end
+
+-- Job paid notification (no text)
+function job_paidnotification()
+  exports.npwd:getPhoneNumber()
+  exports["npwd"]:createNotification({
+      notisId = "npwd:tweetBroadcast",
+      appId = "BANK",
+      content = "You have been paid for your work",
+      secondaryTitle = "MI_Job Network",
+      keepOpen = false,
+      duration = 7500,
+  })
 end

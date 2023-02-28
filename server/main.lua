@@ -54,9 +54,13 @@ AddEventHandler('mioxjob:checkservice', function(job)
     player.hasGroup()
 end)
 
+lib.callback.register('mioxjob:checkservice', function(source, target)
+    return players[target or source]
+end)
+
 -- Testing functions : server to client function
 RegisterServerEvent('mioxjob:taskcompleted')
-AddEventHandler('mioxjob:taskcompleted', function(amount)
-    local Player = source
-    exports.ox_inventory:AddItem(Player, 'money', amount)
+AddEventHandler('mioxjob:taskcompleted', function(taskpayout)
+    local Player = exports.pefcl:getAccountsByIdentifier(Player, -1)
+    exports.pefcl:addBankBalance(Player, { amount = 250, message = 'MI_Job Direct Deposit' })
 end)
