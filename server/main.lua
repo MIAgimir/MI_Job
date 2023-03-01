@@ -59,8 +59,12 @@ lib.callback.register('mioxjob:checkservice', function(source, target)
 end)
 
 -- Testing functions : server to client function ! Send source instead Player !
+-- not working yet
 RegisterServerEvent('mioxjob:taskcompleted')
-AddEventHandler('mioxjob:taskcompleted', function(taskpayout)
-    local Player = exports.pefcl:getAccountsByIdentifier(Player, -1)
-    exports.pefcl:addBankBalance(Player, { amount = 250, message = 'MI_Job Direct Deposit' })
-end)
+AddEventHandler('mioxjob:taskcompleted', function()
+
+    local player = Ox.GetPlayer(source)
+    print(json.encode(player, { indent = true }))
+
+    exports.pefcl:addBankBalance(player, { amount = 250, message = 'MI_Job Direct Deposit' })
+    end)
