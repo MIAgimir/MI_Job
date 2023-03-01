@@ -58,7 +58,7 @@ lib.callback.register('mioxjob:checkservice', function(source, target)
     return players[target or source]
 end)
 
--- Testing functions : server to client function
+-- Testing functions : server to client function ! Send source instead Player !
 RegisterServerEvent('mioxjob:taskcompleted')
 AddEventHandler('mioxjob:taskcompleted', function(taskpayout)
     local Player = exports.pefcl:getAccountsByIdentifier(Player, -1)
