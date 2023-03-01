@@ -9,7 +9,7 @@ Config.TaskOneOps = {
         totasklocation = vector4(397.815, 64.673, 97.977, 356.114),
         taskobjective = vector3(398.157, 67.518, 97.977),
         -- Model
-        taskintobjet = 'v_ind_cm_electricbox',
+        taskped = 'a_f_m_beach_01',
         taskpayout = math.random(100,300)
     }
     

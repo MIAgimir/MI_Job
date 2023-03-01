@@ -155,7 +155,7 @@ function assignment_check()
   exports.scully_emotemenu:CancelAnimation()
   job_startnotification()
   TriggerEvent('mioxjob:start_taskone')
-  TriggerServerEvent('mioxjob:taskcompleted') -- tested for server to client event
+  --TriggerServerEvent('mioxjob:taskcompleted') -- tested for server to client event
   --job_paidnotification()
 end
 
