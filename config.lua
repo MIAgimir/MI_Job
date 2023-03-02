@@ -22,7 +22,11 @@ Config.dotask1 = {
         ped_model = 'mp_s_m_armoured_01',
         task_loc = vector4(912.172, -2124.324, 31.23, 358.096),
         ped_loc = vector(912.172, -2124.324, 31.23, 358.096)
-        
+    },
+    [2] = {
+        ped_model = 'mp_s_m_armoured_01',
+        task_loc = vector4(913.679, -2121.773, 31.233, 131.595),
+        ped_loc = vector(913.679, -2121.773, 31.233, 131.595)
     }
 }
 

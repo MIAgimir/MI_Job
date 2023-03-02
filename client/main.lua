@@ -9,6 +9,7 @@ local pedtasker = {
     ped = nil,
 }
 local pedtaskerloc = nil
+local currenttask = nil
 local doingtask = false
 local vehNetId = nil
 -- Job HQ Blip
@@ -69,19 +70,32 @@ end
 
 -- Task location function
 local function createTaskLocation()
-
+    if pedtaskerloc ~= nil then
+        RemoveBlip(pedtaskerloc)
+        pedtaskerloc = nil
+    end
+    pedtaskerloc =AddBlipForCoord(
+        currenttask.task_loc.x, 
+        currenttask.task_loc.y,
+        currenttask.task_loc.z)
+SetBlipSprite(pedtaskerloc, 1)
+SetBlipColour(pedtaskerloc, 5)
+SetBlipRoute(pedtaskerloc, true)
+SetBlipRouteColour(pedtaskerloc, 5)
+SetBlipScale(pedtaskerloc, 0.8)
+BeginTextCommandSetBlipName('STRING')
+AddTextComponentString('Delivery Dropoff')
+EndTextCommandSetBlipName(pedtaskerloc)
 end
 
-local function spawnped_tasker()
+local function spawnped_tasker(coords)
     if pedtasker.spawned then return end
     local taskped = Config.dotask1[math.random(1, #Config.dotask1)]
     local currenttaskped = taskped.ped_model
     local model2 = joaat(currenttaskped)
     lib.requestModel(model2)
 
-    local taskcoords = Config.dotask1[math.random(1, #Config.dotask1)]
-    local currenttaskcoords = taskcoords.ped_loc
-    local coords = currenttaskcoords
+    local coords = coords
     local ped = CreatePed(0, model2, coords.x, coords.y, coords.z - 1, coords.w, false, false)
 
     pedtasker.ped = ped
@@ -109,11 +123,21 @@ local function spawnped_tasker()
 end
 
 local function removeTask_Ped()
+    if not pedtasker.spawned then return end
 
+    exports.ox_target:removeLocalEntity(pedtasker.ped, { 'mioxjob:doingtask' })
+
+    DeleteEntity(pedtasker.ped)
+    pedtasker.spawned = false
+    pedtasker.ped = nil
 end
 
 RegisterNetEvent('mioxjob:start_taskone', function()
-    spawnped_tasker()
+    local task = Config.dotask1[math.random(1, #Config.dotask1)]
+    currenttask = task
+    taskcoords = currenttask.ped_loc
+    spawnped_tasker(taskcoords)
+    createTaskLocation()
 end)
 
 RegisterNetEvent('mioxjob:doingtask', function()
@@ -128,7 +152,7 @@ RegisterNetEvent('mioxjob:doingtask', function()
     then 
         removeTask_Ped()
         exports.scully_emotemenu:CancelAnimation()
-        RemoveBlip(taskLoc)
+        RemoveBlip(pedtaskerloc)
         TriggerServerEvent('mioxjob:taskcompleted')
         job_paidnotification()
     end
