@@ -1,9 +1,16 @@
 -- Local variables
-local playerload = LocalPlayer.state.isLoggedIn
 local taskped = {
     spawned = false,
     ped = nil,
 }
+
+local pedtasker = {
+    spawned = false,
+    ped = nil,
+}
+local pedtaskerloc = nil
+local doingtask = false
+local vehNetId = nil
 -- Job HQ Blip
 local blips = {
     {title= Config.job_blip.name,
@@ -29,12 +36,12 @@ end)
 -- Job HQ Model
 local function spawntaskped()
     if taskped.spawned then return end
-    local model = joaat(Config.job_hq.model)
+    local model1 = joaat(Config.job_hq.model)
 
-    lib.requestModel(model)
+    lib.requestModel(model1)
 
     local coords = Config.job_hq.ped_loc
-    local ped = CreatePed(0, model, coords.x, coords.y, coords.z - 1, coords.w, false, false)
+    local ped = CreatePed(0, model1, coords.x, coords.y, coords.z - 1, coords.w, false, false)
 
     taskped.ped = ped
 
@@ -65,12 +72,48 @@ local function createTaskLocation()
 
 end
 
+local function spawnped_tasker()
+    if pedtasker.spawned then return end
+    local taskped = Config.dotask1[math.random(1, #Config.dotask1)]
+    local currenttaskped = taskped.ped_model
+    local model2 = joaat(currenttaskped)
+    lib.requestModel(model2)
+
+    local taskcoords = Config.dotask1[math.random(1, #Config.dotask1)]
+    local currenttaskcoords = taskcoords.ped_loc
+    local coords = currenttaskcoords
+    local ped = CreatePed(0, model2, coords.x, coords.y, coords.z - 1, coords.w, false, false)
+
+    pedtasker.ped = ped
+
+    TaskStartScenarioInPlace(ped, 'PROP_HUMAN_STAND_IMPATIENT', 0, true)
+    FreezeEntityPosition(ped, true)
+    SetEntityInvincible(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+
+    local options = {
+        {
+            name = 'mioxjob:doingtask',
+            label = 'Request a Delivery Route',
+            icon = 'fa-solid fa-plane',
+            event = 'mioxjob:doingtask',
+            canInteract = function(_, distance)
+                return distance < 2.0 
+            end
+        }
+    }
+
+    exports.ox_target:addLocalEntity(pedtasker.ped, options)
+
+    pedtasker.spawned = true
+end
+
 local function removeTask_Ped()
 
 end
 
 RegisterNetEvent('mioxjob:start_taskone', function()
-    
+    spawnped_tasker()
 end)
 
 RegisterNetEvent('mioxjob:doingtask', function()

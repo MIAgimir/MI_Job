@@ -19,8 +19,10 @@ Config.job_hq = {
 Config.dotask1 = {
     -- need = location, ped location
     [1] = {
-        ['task_loc'] = vector4(954.433, -1964.781, 30.42, 131.045),
-        ['ped_loc'] = vector(958.1, -1968.27, 30.3, 61.036)
+        ped_model = 'mp_s_m_armoured_01',
+        task_loc = vector4(912.172, -2124.324, 31.23, 358.096),
+        ped_loc = vector(912.172, -2124.324, 31.23, 358.096)
+        
     }
 }
 
@@ -28,6 +30,7 @@ Config.dotask2 = {
     -- need = location, ped location
     [1] = {
         ['task_loc'] = vector4(954.433, -1964.781, 30.42, 131.045),
-        ['ped_loc'] = vector(958.1, -1968.27, 30.3, 61.036)
+        ['ped_loc'] = vector(958.1, -1968.27, 30.3, 61.036),
+        ['ped_model'] = 'mp_s_m_armoured_01'
     }
 }
