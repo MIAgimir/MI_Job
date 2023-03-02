@@ -29,12 +29,3 @@ Config.dotask1 = {
         ped_loc = vector(913.679, -2121.773, 31.233, 131.595)
     }
 }
-
-Config.dotask2 = {
-    -- need = location, ped location
-    [1] = {
-        ['task_loc'] = vector4(954.433, -1964.781, 30.42, 131.045),
-        ['ped_loc'] = vector(958.1, -1968.27, 30.3, 61.036),
-        ['ped_model'] = 'mp_s_m_armoured_01'
-    }
-}
