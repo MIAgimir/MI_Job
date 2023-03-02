@@ -12,6 +12,17 @@ local pedtaskerloc = nil
 local currenttask = nil
 local doingtask = false
 local vehNetId = nil
+
+local onCooldown = false
+
+-- timer cooldown after use
+local function startCooldown()
+    onCooldown = true
+    SetTimeout(Config.Cooldown * 60000, function()
+        onCooldown = false
+    end)
+end
+
 -- Job HQ Blip
 local blips = {
     {title= Config.job_blip.name,

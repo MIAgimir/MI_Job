@@ -3,6 +3,8 @@ Config.Debug = true
 
 Config.JobGroup = { 'job1' }
 
+Config.Cooldown = 1
+
 Config.job_blip = {
     location = vector2(910.619, -2119.245),
     sprite = 475,
