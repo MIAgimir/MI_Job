@@ -1,6 +1,9 @@
 -- Local variables
 local playerload = LocalPlayer.state.isLoggedIn
-
+local taskped = {
+    spawned = false,
+    ped = nil,
+}
 -- Job HQ Blip
 local blips = {
     {title= Config.job_blip.name,
@@ -24,8 +27,40 @@ Citizen.CreateThread(function()
     end
 end)
 -- Job HQ Model
+local function spawntaskped()
+    if taskped.spawned then return end
+    local model = joaat(Config.job_hq.model)
 
+    lib.requestModel(model)
 
+    local coords = Config.job_hq.ped_loc
+    local ped = CreatePed(0, model, coords.x, coords.y, coords.z - 1, coords.w, false, false)
+
+    taskped.ped = ped
+
+    TaskStartScenarioInPlace(ped, 'PROP_HUMAN_STAND_IMPATIENT', 0, true)
+    FreezeEntityPosition(ped, true)
+    SetEntityInvincible(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+
+    local options = {
+        {
+            name = 'mioxjob:start_taskone',
+            label = 'Request a Delivery Route',
+            icon = 'fa-solid fa-plane',
+            event = 'mioxjob:start_taskone',
+            canInteract = function(_, distance)
+                return distance < 2.0 
+            end
+        }
+    }
+
+    exports.ox_target:addLocalEntity(taskped.ped, options)
+
+    taskped.spawned = true
+end
+
+-- Task location function
 local function createTaskLocation()
 
 end
@@ -35,7 +70,7 @@ local function removeTask_Ped()
 end
 
 RegisterNetEvent('mioxjob:start_taskone', function()
-    createTaskLocation()
+    
 end)
 
 RegisterNetEvent('mioxjob:doingtask', function()
@@ -59,6 +94,6 @@ end)
 -- Resource management
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= GetCurrentResourceName() then return end
-    if not playerload then return end
     Wait(100)
+    spawntaskped()
 end)
