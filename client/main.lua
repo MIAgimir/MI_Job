@@ -10,18 +10,7 @@ local pedtasker = {
 }
 local pedtaskerloc = nil
 local currenttask = nil
-local doingtask = false
-local vehNetId = nil
 
-local onCooldown = false
-
--- timer cooldown after use
-local function startCooldown()
-    onCooldown = true
-    SetTimeout(Config.Cooldown * 60000, function()
-        onCooldown = false
-    end)
-end
 
 -- Job HQ Blip
 local blips = {
@@ -99,6 +88,7 @@ AddTextComponentString('Delivery Dropoff')
 EndTextCommandSetBlipName(pedtaskerloc)
 end
 
+-- Spawn the tasked ped
 local function spawnped_tasker(coords)
     if pedtasker.spawned then return end
     local taskped = Config.dotask1[math.random(1, #Config.dotask1)]
@@ -133,6 +123,7 @@ local function spawnped_tasker(coords)
     pedtasker.spawned = true
 end
 
+-- Remove the tasked ped
 local function removeTask_Ped()
     if not pedtasker.spawned then return end
 
@@ -143,6 +134,7 @@ local function removeTask_Ped()
     pedtasker.ped = nil
 end
 
+-- NetE - Start Task
 RegisterNetEvent('mioxjob:start_taskone', function()
     local task = Config.dotask1[math.random(1, #Config.dotask1)]
     currenttask = task
@@ -151,6 +143,7 @@ RegisterNetEvent('mioxjob:start_taskone', function()
     createTaskLocation()
 end)
 
+-- NetE - Doing Task
 RegisterNetEvent('mioxjob:doingtask', function()
     
     exports.scully_emotemenu:PlayByCommand('sms5')
@@ -169,7 +162,7 @@ RegisterNetEvent('mioxjob:doingtask', function()
     end
 end)
 
--- Resource management
+-- AddEvH - On start
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= GetCurrentResourceName() then return end
     Wait(100)

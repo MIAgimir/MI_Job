@@ -18,6 +18,12 @@ Config.job_hq = {
     ped_loc = vector4(906.517, -2123.738, 31.23, 354.87)
 }
 
+Config.job_vehicle = {
+    model = 'speedo',
+    type = 'automobile',
+    spawn = vector4(912.867, -2102.854, 30.525, 234.787)
+}
+
 Config.dotask1 = {
     -- need = location, ped location
     [1] = {

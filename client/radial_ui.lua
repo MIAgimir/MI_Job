@@ -163,6 +163,7 @@ end
 function request_vehicle()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
+  TriggerEvent('mioxjob:client:spawn_workvehicle')
   lib.notify({
     title = 'MI-Job Network',
     description = 'your work vehicle has arrived',

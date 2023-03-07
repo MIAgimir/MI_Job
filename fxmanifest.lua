@@ -15,5 +15,7 @@ server_scripts {
 client_scripts {
     '@ox_core/imports/client.lua',
     'client/main.lua',
+    'client/vehicle.lua',
+    'client/sil_alert.lua',
 	'client/radial_ui.lua'
 }
