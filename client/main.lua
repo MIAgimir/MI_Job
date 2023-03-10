@@ -27,6 +27,7 @@ Citizen.CreateThread(function()
       info.blip = AddBlipForCoord(info.x, info.y)
       SetBlipSprite(info.blip, info.id)
       SetBlipDisplay(info.blip, 4)
+      SetBlipAsShortRange(info.blip, true)
       SetBlipScale(info.blip, info.scale)
       SetBlipColour(info.blip, info.colour)
 	  BeginTextCommandSetBlipName("STRING")
@@ -167,67 +168,86 @@ exports('radial_checkin', function()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
   lib.notify({
-    title = 'MI-Job Network',
-    description = 'you have checked into work',
-    type = 'success'
-  })
+    id = 'work_checkin',
+    title = 'MINet: [jobname]',
+    description = 'You have checked in for work',
+    position = 'top-right',
+    style = {
+        backgroundColor = '#E5E5E5',
+        color = '#000000'
+    },
+    icon = 'circle-check',
+    iconColor = '#1FD537'
+    })
   exports.scully_emotemenu:CancelAnimation()
-  -- trigger service event on MI_Net
 end)
 
 exports('radial_checkout', function()
   exports.scully_emotemenu:PlayByCommand('sms5')
   Wait(5000)
   lib.notify({
-    title = 'MI-Job Network',
-    description = 'you have checked out from work',
-    type = 'error'
-  })
+    id = 'work_checkout',
+    title = 'MINet: [jobname]',
+    description = 'You have checked out of work',
+    position = 'top-right',
+    style = {
+        backgroundColor = '#E5E5E5',
+        color = '#000000'
+    },
+    icon = 'circle-xmark',
+    iconColor = '#E40010'
+    })
   exports.scully_emotemenu:CancelAnimation()
-  -- trigger service event on MI_Net
 end)
 
 exports('assignment_check', function()
   exports.scully_emotemenu:PlayByCommand('sms5')
   lib.notify({
-    title = 'MI-Job Network',
-    description = 'checking avaliable assignments',
-    type = 'inform'
-  })
+    id = 'work_checkjob',
+    title = 'MINet: [jobname]',
+    description = 'Checking for assignments',
+    position = 'top-right',
+    style = {
+        backgroundColor = '#E5E5E5',
+        color = '#000000'
+    },
+    icon = 'signal',
+    iconColor = '#FCD112'
+    })
   Wait(5000)
   exports.scully_emotemenu:CancelAnimation()
   job_startnotification()
   TriggerEvent('mioxjob:start_taskone')
 end)
 
--- Job start notification (no text)
+-- Job start notification --
 function job_startnotification()
   exports.npwd:getPhoneNumber()
   exports["npwd"]:createNotification({
       notisId = "npwd:tweetBroadcast",
       appId = "MESSAGES",
       content = "You have a work assignment. Check your map",
-      secondaryTitle = "MI_Job Network",
+      secondaryTitle = "MINet: [jobname]",
       keepOpen = false,
       duration = 7500,
   })
 end
 
--- Job paid notification (no text)
+-- Job paid notification --
 function job_paidnotification()
   exports.npwd:getPhoneNumber()
   exports["npwd"]:createNotification({
       notisId = "npwd:tweetBroadcast",
       appId = "BANK",
       content = "You have been paid for your work",
-      secondaryTitle = "MI_Job Network",
+      secondaryTitle = "MINet: [jobname]",
       keepOpen = false,
       duration = 7500,
   })
 end
 
 
--- AddEvH - On start
+-- On start --
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= GetCurrentResourceName() then return end
     Wait(100)
