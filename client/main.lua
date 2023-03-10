@@ -162,9 +162,23 @@ RegisterNetEvent('mioxjob:doingtask', function()
     end
 end)
 
+-- exports --
+exports('radial_checkin', function()
+  exports.scully_emotemenu:PlayByCommand('sms5')
+  Wait(5000)
+  lib.notify({
+    title = 'MI-Job Network',
+    description = 'you have checked into work',
+    type = 'success'
+  })
+  exports.scully_emotemenu:CancelAnimation()
+  TriggerServerEvent('ox:setPlayerInService', InService)
+end)
+
 -- AddEvH - On start
 AddEventHandler('onResourceStart', function(resource)
     if resource ~= GetCurrentResourceName() then return end
     Wait(100)
     spawntaskped()
 end)
+

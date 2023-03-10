@@ -14,6 +14,14 @@ chunk()
     print("fuck you "..name)
 ]]
 
+--[[
+Vehicle Spawn method
+    if main_goal = blow_up then 
+        act_like_you_don't_know_nobody 
+        print('make_noises')
+    end
+]]
+
 --[[ Player Service Actions ]]--
 CreateThread(function()
     for _, player in pairs(Ox.GetPlayers(true, { groups = Config.JobGroup })) do
@@ -45,15 +53,6 @@ AddEventHandler('ox:playerLogout', function(source)
     players[source] = nil
 end)
 
---[[ -- reference for getting groups
-    local group = player.get('inService')
-    local grade = player.getGroup(group)
-    local paycheck = 0
-
-    local payment = Config.Paychecks?[group]?[grade]
-    if payment then paycheck += payment end
-]]
-
 RegisterServerEvent('mioxjob:checkservice')
 AddEventHandler('mioxjob:checkservice', function(job)
     local player = source
@@ -68,19 +67,24 @@ end)
 -- not working yet
 RegisterServerEvent('mioxjob:taskcompleted')
 AddEventHandler('mioxjob:taskcompleted', function()
-
     local player = Ox.GetPlayer(source)
     print(json.encode(player, { indent = true }))
-
-    
     exports.pefcl:addBankBalance(player, { amount = 250, message = 'MI_Job Direct Deposit' })
-
 end)
 
---[[
-Vehicle Spawn method
-    if main_goal = blow_up then 
-        act_like_you_don't_know_nobody 
-        print('make_noises')
+
+function setplayerservice()
+    local player = Ox.GetPlayer(source)
+
+    if player then
+        if group and table.contains(Config.JobGroup, group) 
+        and player.hasGroup(Config.JobGroup) then
+            players[source] = player
+            return player.set('inService', group, true)
+        end
+
+        player.set('inService', false, true)
     end
-]]
+
+    players[source] = nil
+end
