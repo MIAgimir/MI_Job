@@ -84,30 +84,3 @@ Vehicle Spawn method
         print('make_noises')
     end
 ]]
-RegisterNetEvent('mioxjob:server:spawn_workvehcile', function(model, coords, vehicletype)
-    local model = model
-    local vehicletype = vehicletype
-    local coords = coords
-    local hash = joaat(model)
-    local src = source
-
-    local vehset = CreateVehicleServerSetter(hash, vehicletype, coords.x, coords.y, coords.z, coords.w)
-    local checks = 0
-
-    while not DoesEntityExist(vehset) do
-        if checks == 10 then break end
-        Wait(50)
-        checks += 1
-    end
-
-    if DoesEntityExist(vehset) then
-        local netId = NetworkGetNetworkIdFromEntity(vehset)
-
-            Entity(vehset).state.workvehicles = true
-
-            workvehicles[#workvehicles+1] = {
-                netId = netId,
-                owner = src,
-            }
-    end
-end)
