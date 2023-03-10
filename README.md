@@ -1,6 +1,6 @@
 ## MI_Job
 ### Work in progress:
-- feature here_
+- export resource for MI_Net project
 
 ### Docs:
 - [CFX Docs](https://docs.fivem.net/docs/)

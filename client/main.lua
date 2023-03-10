@@ -172,8 +172,60 @@ exports('radial_checkin', function()
     type = 'success'
   })
   exports.scully_emotemenu:CancelAnimation()
-  TriggerServerEvent('ox:setPlayerInService', InService)
+  -- trigger service event on MI_Net
 end)
+
+exports('radial_checkout', function()
+  exports.scully_emotemenu:PlayByCommand('sms5')
+  Wait(5000)
+  lib.notify({
+    title = 'MI-Job Network',
+    description = 'you have checked out from work',
+    type = 'error'
+  })
+  exports.scully_emotemenu:CancelAnimation()
+  -- trigger service event on MI_Net
+end)
+
+exports('assignment_check', function()
+  exports.scully_emotemenu:PlayByCommand('sms5')
+  lib.notify({
+    title = 'MI-Job Network',
+    description = 'checking avaliable assignments',
+    type = 'inform'
+  })
+  Wait(5000)
+  exports.scully_emotemenu:CancelAnimation()
+  job_startnotification()
+  TriggerEvent('mioxjob:start_taskone')
+end)
+
+-- Job start notification (no text)
+function job_startnotification()
+  exports.npwd:getPhoneNumber()
+  exports["npwd"]:createNotification({
+      notisId = "npwd:tweetBroadcast",
+      appId = "MESSAGES",
+      content = "You have a work assignment. Check your map",
+      secondaryTitle = "MI_Job Network",
+      keepOpen = false,
+      duration = 7500,
+  })
+end
+
+-- Job paid notification (no text)
+function job_paidnotification()
+  exports.npwd:getPhoneNumber()
+  exports["npwd"]:createNotification({
+      notisId = "npwd:tweetBroadcast",
+      appId = "BANK",
+      content = "You have been paid for your work",
+      secondaryTitle = "MI_Job Network",
+      keepOpen = false,
+      duration = 7500,
+  })
+end
+
 
 -- AddEvH - On start
 AddEventHandler('onResourceStart', function(resource)

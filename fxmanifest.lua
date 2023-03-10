@@ -12,14 +12,18 @@ shared_scripts {
 
 client_scripts {
     '@ox_core/imports/client.lua',
-    'client/main.lua'
+    'client/main.lua',
+    'client/vehicle.lua'
 }
-export 'radial_checkin'
+
+exports { 
+    'radial_checkin',
+    'radial_checkout',
+    'assignment_check'
+}
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
     '@ox_core/imports/server.lua',
     'server/main.lua',
 }
-
-server_export 'setplayerservice'
